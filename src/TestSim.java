@@ -6,7 +6,7 @@ public class TestSim {
     public static void main(String[] args){
         System.out.println("safdsaf");
         System.out.println(
-            new Thing().getInstance().getInstance().getInstance().getInstance().getInstance().getState()
+            new Thing().getInstance().getState().getInstance().setState("blah").getInstance().getInstance().getInstance().getState()
         );
     }
 
@@ -30,8 +30,14 @@ public class TestSim {
             return instance;
         }
 
-        public static String getState(){
-            return state;
+        public static Thing getState(){
+            System.out.println(state);
+            return instance;
+        }
+
+        public static Thing setState(String msg){
+            state = msg;
+            return instance;
         }
     }
 }
