@@ -20,7 +20,6 @@ public class Monkey {
         dir.put("w", new Vector(0, -1));
         this.pos = origin;
         this.prevPos = pos;
-
     }
 
     public void move(){

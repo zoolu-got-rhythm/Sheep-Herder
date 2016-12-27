@@ -17,7 +17,7 @@ public class Map {
         this.width = width;
 
         // spawn monkeys
-        for (int i = 0; i < 5; i++){
+        for (int i = 0; i < 10; i++){
             monkeys.add(new Monkey(new Vector(i,i)));
         }
     }
@@ -42,7 +42,7 @@ public class Map {
                     }
                 }
             }
-        }, 0, 100);
+        }, 0, 50);
     }
 
     public void generateMap(){
@@ -55,15 +55,15 @@ public class Map {
     }
 
     private Boolean detection(Monkey monkey) {
-            Monkey currentActor = monkey;
-            for (int j = 0; j < this.monkeys.size(); j++) {
-                if (this.monkeys.indexOf(currentActor) != j) { // stops the current actor from checking against itself
-                    if (currentActor.getPos().getX() == this.monkeys.get(j).getPos().getX() &&
-                            currentActor.getPos().getY() == this.monkeys.get(j).getPos().getY()) {
-                        return true;
-                    }
+        Monkey currentActor = monkey;
+        for (int j = 0; j < this.monkeys.size(); j++) {
+            if (this.monkeys.indexOf(currentActor) != j) { // stops the current actor from checking against itself
+                if (currentActor.getPos().getX() == this.monkeys.get(j).getPos().getX() &&
+                        currentActor.getPos().getY() == this.monkeys.get(j).getPos().getY()) {
+                    return true;
                 }
             }
+        }
         return false;
     }
 
@@ -77,7 +77,7 @@ public class Map {
         // var row = new Array(this.width);
         // var colum = new Array(this.height);
 
-        for (int x = 0; x < this.width; x++) {
+        for (int x = 0; x < this.height; x++) {
             for (int y = 0; y < this.width; y++) {
                 Vector place = new Vector(x, y);
                 //console.log(place);
@@ -94,8 +94,6 @@ public class Map {
             output += "\n";
         }
         output += "monkeys: " + this.monkeys.size();
-
-
         return output;
     }
 }
