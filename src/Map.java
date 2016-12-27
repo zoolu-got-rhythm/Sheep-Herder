@@ -32,16 +32,17 @@ public class Map {
                 for(Monkey monkey : monkeys){
                     monkey.move();
                     if(!(self.isInside(monkey))) {
-                        System.out.println("out of bounds");
+                        //System.out.println("out of bounds");
                         monkey.undoMove();
                     }
 
-                    if(self.detection()){
+                    if(self.detection(monkey)){
+                        //System.out.println("collision");
                         monkey.undoMove();
                     }
                 }
             }
-        }, 0, 500);
+        }, 0, 100);
     }
 
     public void generateMap(){
@@ -56,14 +57,13 @@ public class Map {
     private Boolean detection(Monkey monkey) {
             Monkey currentActor = monkey;
             for (int j = 0; j < this.monkeys.size(); j++) {
-                if (i != j) { // stops the current actor from checking against itself
+                if (this.monkeys.indexOf(currentActor) != j) { // stops the current actor from checking against itself
                     if (currentActor.getPos().getX() == this.monkeys.get(j).getPos().getX() &&
                             currentActor.getPos().getY() == this.monkeys.get(j).getPos().getY()) {
                         return true;
                     }
                 }
             }
-
         return false;
     }
 
