@@ -6,7 +6,7 @@ class Vector {
     private int y;
 
     public Vector(int x, int y) {
-        System.out.println(this.getClass() + " initializing");
+        // System.out.println(this.getClass() + " initializing");
         this.x = x;
         this.y = y;
     }

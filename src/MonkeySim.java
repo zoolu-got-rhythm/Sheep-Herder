@@ -99,9 +99,7 @@ class MonkeySim {
         public String toString() {
             String output = "";
 
-            // var row = new Array(this.width);
-            // var colum = new Array(this.height);
-
+            // make rows and columns
             for (int x = 0; x < this.width; x++) {
                 for (int y = 0; y < this.width; y++) {
                     Vector place = new Vector(x, y);
