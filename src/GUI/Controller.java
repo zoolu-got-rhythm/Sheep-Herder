@@ -15,6 +15,7 @@ public class Controller {
     public static void main(String[] args){
         Controller  awtControlDemo = new Controller();
         awtControlDemo.showCanvasDemo();
+        (new Thread(new Controller().new MyCanvas())).start();
     }
 
     private void prepareGUI(){
@@ -35,7 +36,9 @@ public class Controller {
         mainFrame.setVisible(true);
     }
 
-    class MyCanvas extends Canvas implements Runnable {
+
+
+    private class MyCanvas extends Canvas implements Runnable {
         private int x = 0;
         private int y = 0;
 
@@ -45,10 +48,12 @@ public class Controller {
         }
 
         public void paint (Graphics g) {
+
             Graphics2D g2;
             g2 = (Graphics2D) g;
+            g2.clearRect(0, 0, 300, 300);
             g2.drawRect(x, y, 10, 10);
-            g2.drawString ("It is a custom canvas area", 70, 70);
+            // g2.drawString ("It is a custom canvas area", 70, 70);
         }
 
 
@@ -56,11 +61,15 @@ public class Controller {
 
         @Override
         public void run() {
+
             try {
-                x++;
-                y++;
-                repaint();
-                Thread.sleep(500);
+                while (true) {
+                    x++;
+                    y++;
+                    repaint();
+                    System.out.println(x);
+                    Thread.sleep(100);
+                }
             }catch (Exception e){
                 e.getStackTrace();
             }
