@@ -1,63 +1,39 @@
 package GUI;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class Controller {
 
-    private Frame mainFrame;
-    // private GraphicsConfiguration g;
 
-
-    public Controller(){
-        prepareGUI();
-    }
 
     public static void main(String[] args){
-        Controller  awtControlDemo = new Controller();
-        awtControlDemo.showCanvasDemo();
-        (new Thread(new Controller().new MyCanvas())).start();
-    }
+        JFrame jf = new JFrame();
+        MyCanvas c = new Controller().new MyCanvas();
 
-    private void prepareGUI(){
-        mainFrame = new Frame("Java AWT Examples");
-        mainFrame.setSize(400,400);
-        mainFrame.setLayout(new GridLayout(3, 1));
-        mainFrame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowEvent){
-                System.exit(0);
-            }
-        });
+        jf.setTitle("canvas experiment");
+        jf.setSize(1000, 1000);
+        jf.setVisible(true);
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.add(new Controller().new MyCanvas());
 
-        mainFrame.setVisible(true);
-    }
-
-    private void showCanvasDemo(){
-        mainFrame.add(new MyCanvas());
-        mainFrame.setVisible(true);
+        new Thread(c).start();
     }
 
 
 
-    private class MyCanvas extends Canvas implements Runnable {
+
+    private class MyCanvas extends JPanel implements Runnable, ActionListener {
         private int x = 0;
         private int y = 0;
 
-        public MyCanvas () {
-            setBackground (Color.GRAY);
-            setSize(300, 300);
+        // overriding?
+        public void paintComponent(Graphics g){
+            super.paintComponent(g);
+
+            g.setColor(Color.pink);
+            g.fillRect(x, y, 20, 20);
         }
-
-        public void paint (Graphics g) {
-
-            Graphics2D g2;
-            g2 = (Graphics2D) g;
-            g2.clearRect(0, 0, 300, 300);
-            g2.drawRect(x, y, 10, 10);
-            // g2.drawString ("It is a custom canvas area", 70, 70);
-        }
-
-
-
 
         @Override
         public void run() {
@@ -74,5 +50,14 @@ public class Controller {
                 e.getStackTrace();
             }
         }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
     }
+
+    // timer thread
+
+    // user input (player) thread
 }
