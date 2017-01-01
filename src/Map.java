@@ -28,7 +28,7 @@ public class Map {
             @Override
             public void run() {
                 System.out.println(self.toString());
-
+                // re-paint
                 for(Monkey monkey : monkeys){
                     monkey.move();
                     if(!(self.isInside(monkey))) {
