@@ -1,52 +1,38 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
+import javax.swing.Timer;
 
 /**
  * Created by Slime on 23/12/2016.
  */
-public class Map {
+public class Map extends JPanel implements ActionListener, KeyListener {
     // compose all the objects
     List<Monkey> monkeys = new ArrayList<>();
     int height;
     int width;
 
+    private Timer tm = new Timer(100, this);
+
     public Map(int height, int width){
         this.height = height;
         this.width = width;
 
+
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+
         // spawn monkeys
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 3; i++){
             monkeys.add(new Monkey(new Vector(i,i)));
         }
-    }
-
-    public void turn(){
-        Map self = this;
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println(self.toString());
-                // re-paint
-                for(Monkey monkey : monkeys){
-                    monkey.move();
-                    if(!(self.isInside(monkey))) {
-                        //System.out.println("out of bounds");
-                        monkey.undoMove();
-                    }
-
-                    if(self.detection(monkey)){
-                        //System.out.println("collision");
-                        monkey.undoMove();
-                    }
-                }
-            }
-        }, 0, 50);
-    }
-
-    public void generateMap(){
-
     }
 
     private Boolean isInside(Monkey actor) {
@@ -95,5 +81,78 @@ public class Map {
         }
         output += "monkeys: " + this.monkeys.size();
         return output;
+    }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        int xBlockSize = 0;
+        int yBlockSize = 0;
+
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 1000, 1000);
+
+        for (int x = 0; x < this.width; x++) {
+            xBlockSize += 10;
+            for (int y = 0; y < this.height; y++) {
+                yBlockSize += 10;
+
+                Vector place = new Vector(x, y);
+                //console.log(place);
+
+                g.setColor(Color.ORANGE);
+                g.fillRect(xBlockSize, yBlockSize, 9, 9);
+
+                // override orange with green if a monkey is found
+                for(int i = 0; i < this.monkeys.size(); i++){
+                    Monkey actor = this.monkeys.get(i);
+                    if (actor.getPos().getX() == place.getX() &&
+                            actor.getPos().getY() == place.getY()) {
+                        g.setColor(Color.GREEN);
+                        g.fillRect(xBlockSize, yBlockSize, 9, 9);
+                    }
+                }
+
+
+                if(yBlockSize == 10 * 10)
+                    yBlockSize = 0;
+            }
+        }
+        g.drawString("monkeys: " + this.monkeys.size(), 200, 200);
+
+        tm.start();
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
+
+        for(Monkey monkey : monkeys){
+            monkey.move();
+            if(!(this.isInside(monkey))) {
+                //System.out.println("out of bounds");
+                monkey.undoMove();
+            }
+
+            if(this.detection(monkey)){
+                //System.out.println("collision");
+                monkey.undoMove();
+            }
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
