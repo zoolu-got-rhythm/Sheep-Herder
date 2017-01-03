@@ -4,6 +4,8 @@ import java.util.TimerTask;
 /**
  * Created by Slime on 15/10/2016.
  */
+
+// re-name to StopWatch
 public class TestTimer {
     public int x = 0;
     public Timer timer;
