@@ -11,7 +11,8 @@ public class App {
     public static void main(String[] args) {
         jf = new JFrame();
         Map level1 = new Map(10,10);
-
+        TestTimer tm = new TestTimer();
+        tm.start(10);
 
         // jframe api: set-up canvas
         jf.setTitle("canvas experiment");
@@ -19,5 +20,6 @@ public class App {
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.add(level1);
+        // jf.add()
     }
 }

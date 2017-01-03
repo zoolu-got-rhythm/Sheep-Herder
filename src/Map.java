@@ -15,6 +15,7 @@ import javax.swing.Timer;
 public class Map extends JPanel implements ActionListener, KeyListener {
     // compose all the objects
     List<Monkey> monkeys = new ArrayList<>();
+
     int height;
     int width;
 
@@ -29,6 +30,7 @@ public class Map extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
 
+        monkeys.add(new Player(new Vector(5, 5)));
         // spawn monkeys
         for (int i = 0; i < 3; i++){
             monkeys.add(new Monkey(new Vector(i,i)));
@@ -102,7 +104,7 @@ public class Map extends JPanel implements ActionListener, KeyListener {
                 g.setColor(Color.ORANGE);
                 g.fillRect(xBlockSize, yBlockSize, 9, 9);
 
-                // override orange with green if a monkey is found
+                // loop through monkeys & override orange with green if a monkey is found
                 for(int i = 0; i < this.monkeys.size(); i++){
                     Monkey actor = this.monkeys.get(i);
                     if (actor.getPos().getX() == place.getX() &&
@@ -117,7 +119,7 @@ public class Map extends JPanel implements ActionListener, KeyListener {
                     yBlockSize = 0;
             }
         }
-        g.drawString("monkeys: " + this.monkeys.size(), 200, 200);
+        g.drawString("wrestlers: " + this.monkeys.size(), 200, 200);
 
         tm.start();
 
