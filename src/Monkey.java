@@ -14,17 +14,24 @@ public class Monkey {
 
     public Monkey(Vector origin){
         // initialize
-        dir.put("n", new Vector(0,1));
+        dir.put("n", new Vector(0,-1));
         dir.put("e", new Vector(1, 0));
-        dir.put("s", new Vector(-1, 0));
-        dir.put("w", new Vector(0, -1));
+        dir.put("s", new Vector(0, 1));
+        dir.put("w", new Vector(-1, 0));
         this.pos = origin;
         this.prevPos = pos;
     }
 
+    // random direction
     public void move(){
         this.prevPos = this.pos;
         this.pos = this.pos.plot(dir.get(this.direction[(int) Math.floor(Math.random() * direction.length)]));
+    }
+
+    // custom direction
+    public void move(String playerDirection){
+        this.prevPos = this.pos;
+        this.pos = this.pos.plot(dir.get(playerDirection));
     }
 
     public void undoMove(){

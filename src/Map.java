@@ -18,8 +18,10 @@ public class Map extends JPanel implements ActionListener, KeyListener {
 
     int height;
     int width;
+    Boolean isPlayerDir = false;
+    String playerDirection = "";
 
-    private Timer tm = new Timer(100, this);
+    private Timer tm = new Timer(150, this);
 
     public Map(int height, int width){
         this.height = height;
@@ -101,7 +103,7 @@ public class Map extends JPanel implements ActionListener, KeyListener {
                 Vector place = new Vector(x, y);
                 //console.log(place);
 
-                g.setColor(Color.ORANGE);
+                g.setColor(Color.GREEN);
                 g.fillRect(xBlockSize, yBlockSize, 9, 9);
 
                 // loop through monkeys & override orange with green if a monkey is found
@@ -109,7 +111,12 @@ public class Map extends JPanel implements ActionListener, KeyListener {
                     Monkey actor = this.monkeys.get(i);
                     if (actor.getPos().getX() == place.getX() &&
                             actor.getPos().getY() == place.getY()) {
-                        g.setColor(Color.GREEN);
+                        if(actor.getClass().getName() == "Monkey"){
+                            g.setColor(Color.WHITE);
+                        }else{
+                            g.setColor(Color.BLUE);
+                        }
+
                         g.fillRect(xBlockSize, yBlockSize, 9, 9);
                     }
                 }
@@ -130,7 +137,17 @@ public class Map extends JPanel implements ActionListener, KeyListener {
         repaint();
 
         for(Monkey monkey : monkeys){
-            monkey.move();
+
+            if(monkey.getClass().getName().equals("Player")){
+                if(isPlayerDir == true) {
+                    System.out.println(monkey.getClass().getName());
+                    monkey.move(playerDirection);
+                    isPlayerDir = false;
+                }
+            }else{
+                monkey.move();
+            }
+
             if(!(this.isInside(monkey))) {
                 //System.out.println("out of bounds");
                 monkey.undoMove();
@@ -150,6 +167,29 @@ public class Map extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        System.out.println(e.getKeyCode());
+        int key = e.getKeyCode();
+
+        isPlayerDir = true;
+        switch (key) {
+            case 37:
+                playerDirection = "w";
+                break;
+            case 38:
+                playerDirection = "n";
+                break;
+            case 39:
+                playerDirection = "e";
+                break;
+            case 40:
+                playerDirection = "s";
+                break;
+            default:
+                isPlayerDir = false;
+                break;
+        }
+
+        System.out.println(playerDirection);
 
     }
 
